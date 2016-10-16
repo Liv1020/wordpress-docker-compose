@@ -1,0 +1,32 @@
+fpm:
+  image: wordpress:php7.0-fpm
+  volumes:
+    - ./app:/var/www/html
+  links:
+    - db:mysql
+  environment:
+    WORDPRESS_DB_NAME: wordpress
+    WORDPRESS_DB_USER: wordpress
+    WORDPRESS_DB_PASSWORD: mM7a2xEimHiDpn
+
+nginx:
+  image: nginx:latest
+  ports:
+    - "80:80"
+  volumes:
+    - ./nginx/vhost.conf:/etc/nginx/conf.d/vhost.conf
+    - ./app:/var/www/html
+  links:
+    - fpm
+
+db:
+  image: mysql:5.7
+  volumes:
+    - /var/lib/mysql
+  ports:
+    - "3306:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: Lpf6480558
+    MYSQL_DATABASE: wordpress
+    MYSQL_USER: wordpress
+    MYSQL_PASSWORD: mM7a2xEimHiDpn
